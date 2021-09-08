@@ -1,0 +1,45 @@
+section {
+    display: flex;
+  }
+  button {
+    background-color: #ffffff; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    color: black;
+    border: 2px solid #4CAF50; /* Green */
+  }
+  button:hover{
+    background-color: #175e19; /* Green */
+    color: white;
+  }
+  header {
+    background: rgb(173, 84, 173);
+    height: 100px;
+  }
+#redBut{
+  border: 2px solid #790202;
+}
+#redBut:hover{
+  background-color: #790202; /* Green */
+  color: white;
+}
+
+.modal {
+  /* display: none; Hidden by default */
+  position: fixed; /* Stay in place */
+  display: none;
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(255,255,255); /* Black w/ opacity */
+}

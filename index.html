@@ -1,10 +1,13 @@
 <!doctype html>
 
 <html lang="en">
+  
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8">
     
+    <link href="style.css" rel = "stylesheet">
+    <script src = "script.js"></script>
     <meta property="og:title" content="">
     <meta property="og:type" content="">
     <meta property="og:url" content="">
@@ -14,15 +17,16 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" /> 
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-  
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
     <meta name="theme-color" content="#fafafa">
     
     <title>Sage's HTML</title>
   </head>
+  
   <body>
     <p>Sage's webpage, under <strong>heavy</strong> development.</p>
+    <audio id="audio" src="audio1.mp3" preload="auto"  ></audio>
+    <div id="myModal" class="modal"></div>   
+    <button id="redBut" onclick="flashbang(this)">Don't Press This</button>
     <script>
       window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
       ga('create', 'G-E5X5K3LC01', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
