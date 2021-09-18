@@ -23,18 +23,28 @@
   </head>
   
   <body>
+
     <div class = "flex">
-      <div class = "sign"></div>
-    
-    <div class = "item">
-      <p>Sage's webpage, under <strong>heavy</strong> development.</p>
-      <audio id="audio" src="audio1.mp3" preload="auto"  ></audio>
-      <div id="myModal" class="modal"></div>
-      <section>   
-      <button id="redBut" onclick="flashbang(this)">Don't Press This</button>
-      </section>
+      <div class = "item">
+        <div>
+          <div class = "sign" id = "gridContainer">
+            <script type="text/javascript">
+              populateGrid()
+            </script>
+          </div>
+        </div>
+        <div>
+          <p>Sage's webpage, under <strong>heavy</strong> development.</p>
+          <audio id="audio" src="audio1.mp3" preload="auto"  ></audio>
+          <div id="myModal" class="modal"></div>
+        </div>
+        <div>
+        <section>   
+          <button id="redBut" onclick="flashbang(this)">Don't Press This</button>
+        </section>
+        </div>
+      </div>
     </div>
-  </div>
     <script>
       window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
       ga('create', 'G-E5X5K3LC01', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')

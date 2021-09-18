@@ -19,3 +19,18 @@ function sleep(ms) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
+function populateGrid(){
+    console.log("populating")
+    let grid = document.getElementById("gridContainer")
+    for (let i = 0; i < 2500; i++) {
+        let item = document.createElement("img");
+        item.setAttribute("class", "pixel");
+        item.addEventListener("click", togglePixel(item))
+        item.setAttribute("src","dot.png");
+        grid.appendChild(item);
+    }
+}
+function togglePixel(item){
+    console.log(item);
+    item.setAttribute("src","redDot.png");
+}
