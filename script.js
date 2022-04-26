@@ -20,21 +20,27 @@ function sleep(ms) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
-function populateGrid(){   
+function populateGrid(){
+    let root = document.documentElement;
+    toggled = true;
     console.log("populating");
-    val = "repeat(40,1fr)";
-    val = val.replace("*",String(Math.trunc(window.innerWidth/46)));
+    num = Math.trunc(((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)-20)/16);
+    root.style.setProperty('--numCols', num);
     let grid = document.getElementById("gridContainer");
-    console.log("equality:",val === grid.getAttribute("grid-template-columns"));
-    grid.setAttribute("grid-template-columns", val);
-    console.log(grid.getAttribute('grid-template-columns'));
-    console.log("size:",Math.trunc(window.innerWidth/46))
+    console.log("cols: ",grid.getAttribute('grid-template-columns'));
+    console.log("size: ", num)
     for(let i = 0; i < 10; i++){
-        for (let i = 0; i < 75; i++) {
+        for (let i = 0; i <num; i++) {
+
             let item = document.createElement("img");
             item.setAttribute("class", "pixel");
             item.addEventListener("click", function() { togglePixel(item); });
             item.setAttribute("src","dot.png");
+            toggled = !toggled
+            if(toggled)
+            {
+                togglePixel(item);
+            }
             grid.appendChild(item);
         }
     }
@@ -46,16 +52,20 @@ function getColorIndicesForCoord(x, y, width) {
   }
 function manageCanvas(){
     //init
-    canvas = document.getElementById("textCanvas")
+    var width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    console.log("width " + width);
+    canvas = document.getElementById("textCanvas");
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = "rgb(200,10,10)"
+    ctx.fillStyle = "rgb(200,10,10)";
     ctx.font = "10px EB Garamond";
+    ctx.canvas.width = width;
     ctx.fillText(phrases,0,23);
-    //end init
-    width = canvas.width;
-    // canvas.height = 50;
-    height = canvas.height;
+
+    height = ctx.canvas.height;
+
     var data = ctx.getImageData(0,0,width,height).data;  
 }
 

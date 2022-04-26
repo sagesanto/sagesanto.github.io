@@ -1,3 +1,4 @@
+
 section {
     display: flex;
   }
@@ -45,18 +46,20 @@ section {
     grid-row-gap: 5px;
     background-color: black;
     padding: 10px;
+   /* min-width: 100%; */
+    max-width: 100%;
     align-items: center;
-    grid-template-columns: repeat(75,1fr);
+    grid-template-columns: repeat(var(--numCols),1fr);
 }
 
 canvas{
-  width:4000;
-  height:100px;
+  width:4000px;
+  height:30px;
   /* display: none; */
 }
 
 .pixel{
-  border-radius: 2px;
+  /*border-radius: 2px; */
 }
 
 .modal {
@@ -71,5 +74,11 @@ canvas{
   overflow: auto; 
   background-color: rgb(0,0,0); 
   background-color: rgba(255,255,255);
+}
+
+.modal-header {
+  padding: 2px 100px;
+  background-color: #5cb85c;
+  color: WHITE;
 }
 
