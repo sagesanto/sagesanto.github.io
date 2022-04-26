@@ -1,4 +1,4 @@
-var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu:         they’re stars that are facing the end    you do not recognize the bodies in the water   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent" 
+var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu:         they’re stars that are facing the end    you do not recognize the bodies in the water   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent"
 async function flashbang(callingElement)
 {
     callingElement.disabled = true;
@@ -20,6 +20,7 @@ function sleep(ms) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
+var num;
 function populateGrid(){
     let root = document.documentElement;
     toggled = true;
@@ -51,22 +52,24 @@ function getColorIndicesForCoord(x, y, width) {
     return [red, red + 1, red + 2, red + 3];
   }
 function manageCanvas(){
-    //init
-    var width = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-    console.log("width " + width);
+    let root = document.documentElement;
+    var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     canvas = document.getElementById("textCanvas");
-    ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = "rgb(200,10,10)";
-    ctx.font = "10px EB Garamond";
-    ctx.canvas.width = width;
-    ctx.fillText(phrases,0,23);
-
+    ctx.font = "160px EB Garamond";
+    width = ctx.canvas.width;
+    ctx.strokeText(phrases,0,80);
     height = ctx.canvas.height;
-
-    var data = ctx.getImageData(0,0,width,height).data;  
+    var data = Array.from(ctx.getImageData(0,0,width,160).data);
+    var pixels = [];
+    for(let i = 3; i < data.length; i += 4)
+    {
+        pixels.push(data[i])
+    }
+    
+    console.log("Pixels: ", pixels)
 }
 
 function togglePixel(item){
