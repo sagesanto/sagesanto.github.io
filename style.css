@@ -46,11 +46,13 @@ section {
     background-color: black;
     padding: 10px;
     align-items: center;
-    grid-template-columns: repeat(40,1fr);
+    grid-template-columns: repeat(75,1fr);
 }
 
 canvas{
-  display: none;
+  width:4000;
+  height:100px;
+  /* display: none; */
 }
 
 .pixel{

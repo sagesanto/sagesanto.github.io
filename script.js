@@ -1,3 +1,4 @@
+var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu:         they’re stars that are facing the end    you do not recognize the bodies in the water   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent" 
 async function flashbang(callingElement)
 {
     callingElement.disabled = true;
@@ -29,10 +30,10 @@ function populateGrid(){
     console.log(grid.getAttribute('grid-template-columns'));
     console.log("size:",Math.trunc(window.innerWidth/46))
     for(let i = 0; i < 10; i++){
-        for (let i = 0; i < Math.trunc(window.innerWidth/46); i++) {
+        for (let i = 0; i < 75; i++) {
             let item = document.createElement("img");
             item.setAttribute("class", "pixel");
-            item.addEventListener("click", togglePixel(item))
+            item.addEventListener("click", function() { togglePixel(item); });
             item.setAttribute("src","dot.png");
             grid.appendChild(item);
         }
@@ -48,14 +49,14 @@ function manageCanvas(){
     canvas = document.getElementById("textCanvas")
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = "rgb(10,10,10)"
-    ctx.font = "32px EB Garamond";
+    ctx.fillStyle = "rgb(200,10,10)"
+    ctx.font = "10px EB Garamond";
     ctx.fillText(phrases,0,23);
     //end init
     width = canvas.width;
+    // canvas.height = 50;
     height = canvas.height;
-
-    var data = ctx.getImageData(0,0,width,height).data;   
+    var data = ctx.getImageData(0,0,width,height).data;  
 }
 
 function togglePixel(item){
