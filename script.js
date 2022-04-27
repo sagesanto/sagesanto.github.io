@@ -30,7 +30,7 @@ function populateGrid(){
     let grid = document.getElementById("gridContainer");
     console.log("cols: ",grid.getAttribute('grid-template-columns'));
     console.log("size: ", num)
-    for(let i = 0; i < 10; i++){
+    for(let i = 0; i < 20; i++){
         for (let i = 0; i <num; i++) {
 
             let item = document.createElement("img");
@@ -51,25 +51,39 @@ function getColorIndicesForCoord(x, y, width) {
     var red = y * (width * 4) + x * 4;
     return [red, red + 1, red + 2, red + 3];
   }
+
 function manageCanvas(){
     let root = document.documentElement;
+
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     canvas = document.getElementById("textCanvas");
     const ctx = canvas.getContext("2d");
+    ctx.textBaseline = "top";
     ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = "rgb(200,10,10)";
-    ctx.font = "160px EB Garamond";
-    width = ctx.canvas.width;
-    ctx.strokeText(phrases,0,80);
+    ctx.font = "18pt Calibri";
+    console.log("width: ", width)
+
     height = ctx.canvas.height;
-    var data = Array.from(ctx.getImageData(0,0,width,160).data);
+    ctx.canvas.width = width;
+    ctx.canvas.height = 40;
+    ctx.fillText(phrases,0,10);
+    var data = Array.from(ctx.getImageData(0,10,width,30).data);
     var pixels = [];
     for(let i = 3; i < data.length; i += 4)
     {
         pixels.push(data[i])
     }
-    
-    console.log("Pixels: ", pixels)
+    pixelGrid = []
+    for(let i = 0; i < 20; i ++)
+    {
+        pixelGrid.push(pixels.slice(0,num))
+    }
+    //pixel grid is a vector of rows indexible by [column, row]
+
+
+
+    console.log("Pixels Grid: ", pixelGrid)
 }
 
 function togglePixel(item){
