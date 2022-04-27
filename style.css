@@ -37,12 +37,13 @@ section {
 .item{
   display: flex;
   order: 2;
+  on: false
   flex: 100%;
   flex-direction: column;
 }
 .sign{
     display: grid;
-    grid-column-gap: 5px;
+    grid-column-gap: 2px;
     grid-row-gap: 5px;
     background-color: black;
     padding: 10px;
