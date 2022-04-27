@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="utf-8">
     <link href="style.css" rel="stylesheet">
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
     <meta property="og:title" content="">
     <meta property="og:type" content="">
     <meta property="og:url" content="">
@@ -29,18 +29,11 @@
 <body>
 <canvas id="reconstructCanvas"></canvas>
 <canvas id="textCanvas"></canvas>
-            <script type="text/javascript">
-            manageCanvas()
-            </script>
 
 <div class="flex">
     <div class="item">
         <div>
-            <div class="sign" id="gridContainer">
-                <script type="text/javascript">
-              populateGrid()
-                </script>
-            </div>
+            <div class="sign" id="gridContainer"></div>
         </div>
         <div>
             <p>Sage's webpage, under <strong>heavy</strong> development.</p>
@@ -60,7 +53,6 @@
 <script>
       window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
       ga('create', 'G-E5X5K3LC01', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
-
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>

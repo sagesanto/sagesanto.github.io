@@ -37,10 +37,10 @@ section {
 .item{
   display: flex;
   order: 2;
-  on: false
   flex: 100%;
   flex-direction: column;
 }
+
 .sign{
     display: grid;
     grid-column-gap: 2px;

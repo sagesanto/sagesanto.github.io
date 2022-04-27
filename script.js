@@ -1,4 +1,6 @@
 var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu:         they’re stars that are facing the end    you do not recognize the bodies in the water   i want to dance with devils on dead stars   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent    "
+
+
 async function flashbang(callingElement)
 {
     callingElement.disabled = true;
@@ -17,11 +19,13 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 var num;
-let gridItems = [];
+let gridItems = Array(20).fill([]);
 function populateGrid(){
     let root = document.documentElement;
     toggled = true;
@@ -31,12 +35,9 @@ function populateGrid(){
     let grid = document.getElementById("gridContainer");
     console.log("cols: ",grid.getAttribute('grid-template-columns'));
     console.log("size: ", num)
-     for(let i = 0; i < 20; i++){
-        gridItems.push([])
-     }
     for(let i = 0; i < 20; i++){
         for (let j = 0; j <num; j++) {
-            let item = document.createElement("img");
+            var item = document.createElement("img");
             item.setAttribute("class", "pixel");
             item.addEventListener("click", function() { togglePixel(item); });
             item.setAttribute("src","dot.png");
@@ -114,30 +115,34 @@ function setState(desiredState){ //take an array with row# of col#-length array,
     //state is indexibile by [col,row], unfortunately
     //man i just want pandas dataframes
 
-    let numRows = state.length
-    let numCols = state[0].length
+    let numRows = desiredState.length
+    let numCols = desiredState[0].length
 
     let turnOn = []
     let turnOff = []
-
+    console.log("desired: ",desiredState)
     for(let i = 0; i < numRows; i ++)
     {
         for(let j = 0; j < numRows; j ++)
         {
-            if(state[i][j]){
-                turnOn.push(state[i][j])
+            if(desiredState[i][j]){
+                turnOn.push(desiredState[i][j])
             }
             else{
-                turnOff.push(state[i][j])
+                turnOff.push(desiredState[i][j])
             }
         }
     }
     turnPixelsOn(turnOn)
     turnPixelsOff(turnOff)
 }
+
+
 let pointer = 0;
-function runCanvasTick(pixelsGridData)
+function runCanvasTick(pixelsGridData) //use a callback function on a timer to call it
 {
+    console.log("gridItems in runCanvas: ",gridItems)
+    console.log(Array.isArray(gridItems[0]))
     let gridWidth = gridItems[0].length
     let width = pixelsGridData[0].length
     let height = pixelsGridData.length
@@ -146,7 +151,7 @@ function runCanvasTick(pixelsGridData)
     {
         for(let j = 0; j < gridWidth; j++)
         {
-            state[i,j] = pixelsGridData[i,(j+pointer)%width]
+            state[i][j] = pixelsGridData[i][(j+pointer)%width]
         }
     }
     pointer++
@@ -168,14 +173,14 @@ function turnPixelsOn(pixels){
 }
 
 function turnPixelOn(item){
-    if(item.getAttribute("on"))
+    if(item.getAttribute("src") == "redDot.png")
     {
         return;
     }
     togglePixel(item)
 }
 function turnPixelOff(item){
-    if(!item.getAttribute("on"))
+    if(!item.getAttribute("src") == "redDot.png")
     {
         return;
     }
@@ -183,7 +188,9 @@ function turnPixelOff(item){
 }
 
 function togglePixel(item){
-    let isOn = item.getAttribute("on")
-    isOn ? item.setAttribute("src","dot.png") : item.setAttribute("src","redDot.png")
-    item.setAttribute("on",!isOn);
+    let isOn = item.getAttribute("src") == "redDot.png"
+    isOn ? item.setAttribute("src","dot.png") : item.setAttribute("src","redDot.png");
 }
+
+populateGrid()
+manageCanvas()
