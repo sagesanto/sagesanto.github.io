@@ -61,7 +61,7 @@ canvas{
 }
 
 .modal {
-  position: fixed; 
+  position: fixed;
   display: none;
   z-index: 1;
   padding-top: 100px;

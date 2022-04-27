@@ -21,7 +21,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 var num;
-var gridItems = [];
+let gridItems = [];
 function populateGrid(){
     let root = document.documentElement;
     toggled = true;
@@ -50,10 +50,11 @@ function populateGrid(){
 
             grid.appendChild(item);
             gridItems[i].push(item);
+
         }
     }
     console.log(grid)
-    console.log(gridItems)
+    console.log("gridItems: ", gridItems)
 }
 
 function getColorIndicesForCoord(x, y, width) { //not relevant
@@ -134,12 +135,22 @@ function setState(desiredState){ //take an array with row# of col#-length array,
     turnPixelsOn(turnOn)
     turnPixelsOff(turnOff)
 }
-
+let pointer = 0;
 function runCanvasTick(pixelsGridData)
 {
-    width = pixelsGridData[0].length
-    height = pixelsGridData.length
-
+    let gridWidth = gridItems[0].length
+    let width = pixelsGridData[0].length
+    let height = pixelsGridData.length
+    let state = Array(20).fill([])
+    for(let i = 0; i < height; i++)
+    {
+        for(let j = 0; j < gridWidth; j++)
+        {
+            state[i,j] = pixelsGridData[i,(j+pointer)%width]
+        }
+    }
+    pointer++
+    setState(state)
     //make the thing go - write algorithm to generate desired state to pass to the setState function
 }
 
