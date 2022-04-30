@@ -1,4 +1,4 @@
-var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu:         they’re stars that are facing the end    you do not recognize the bodies in the water   i want to dance with devils on dead stars   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent    "
+var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu: -1    they’re stars that are facing the end    you do not recognize the bodies in the water   i want to dance with devils on dead stars   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent    "
 
 
 async function flashbang(callingElement)
@@ -19,13 +19,17 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-
+function tick()
+{
+    runCanvasTick(pixelGrid);
+    console.log("tick")
+}
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 var num;
-let gridItems = Array(20).fill([]);
+let gridItems = Array.from(Array(20), () => new Array());
 function populateGrid(){
     let root = document.documentElement;
     toggled = true;
@@ -41,21 +45,18 @@ function populateGrid(){
             item.setAttribute("class", "pixel");
             item.addEventListener("click", function() { togglePixel(item); });
             item.setAttribute("src","dot.png");
+            gridItems[i].push(item);
+            grid.appendChild(item);
 
-          //debugging
+      //    debugging
             toggled = !toggled
             if(toggled)
             {
                 togglePixel(item);
             }
-
-            grid.appendChild(item);
-            gridItems[i].push(item);
-
         }
     }
     console.log(grid)
-    console.log("gridItems: ", gridItems)
 }
 
 function getColorIndicesForCoord(x, y, width) { //not relevant
@@ -84,30 +85,29 @@ function manageCanvas(){
     ctx.canvas.width = canvDrawWidth;
     ctx.canvas.height = 20;
 
-
     ctx.fillText(phrases,0,10);
     var data = Array.from(ctx.getImageData(0,0,canvDrawWidth,20).data);
     ctx2.putImageData(ctx.getImageData(0,0,canvDrawWidth,20), 0,0)
 
     var pixels = [];
-    var nonEmpty = [];
-    sum = 0;
+    count = 0;
     for(let i = 3; i < data.length; i += 4) //only looking at alpha
     {
         pixels.push(data[i])
-        sum += data[i] //debugging purposes
+        data[i] != 0 ? count += 1 : count += 0 //debugging purposes
     }
-    console.log("sum: ",sum)
+    console.log("count: ",count)
+    console.log("pixels: ",pixels)
 
     pixelGrid = []
     for(let i = 0; i < 20; i ++)
     {
         pixelGrid.push(pixels.slice(0,canvDrawWidth))
     }
-    //pixel grid is a vector of rows indexible by [column, row]
+    //pixel grid is a vector of rows indexible by [column, row]  //console.log("good pixels: ", nonEmpty)
     console.log("Pixels Grid: ", pixelGrid)
 
-    runCanvasTick(pixelGrid)
+    setInterval(runCanvasTick,17,pixelGrid) //roughly 60fps //doesnt work
 }
 //should probably just make the whole canvas a class
 
@@ -115,60 +115,69 @@ function setState(desiredState){ //take an array with row# of col#-length array,
     //state is indexibile by [col,row], unfortunately
     //man i just want pandas dataframes
 
-    let numRows = desiredState.length
-    let numCols = desiredState[0].length
+    let numCols = desiredState.length
+    let numRows = desiredState[0].length
 
     let turnOn = []
     let turnOff = []
     console.log("desired: ",desiredState)
-    for(let i = 0; i < numRows; i ++)
+    for(let i = 0; i < numCols; i ++)
     {
         for(let j = 0; j < numRows; j ++)
         {
-            if(desiredState[i][j]){
-                turnOn.push(desiredState[i][j])
+//            console.log("desired state at ", j, ", ",i, " is ",desiredState[i][j])
+            if(desiredState[i][j] !=0){
+                turnOn.push(gridItems[i][j])
             }
             else{
-                turnOff.push(desiredState[i][j])
+                turnOff.push(gridItems[i][j])
             }
         }
     }
     turnPixelsOn(turnOn)
     turnPixelsOff(turnOff)
 }
-
-
 let pointer = 0;
 function runCanvasTick(pixelsGridData) //use a callback function on a timer to call it
 {
+    canvas = document.getElementById("textCanvas");
+    const ctx = canvas.getContext("2d");
+    console.log("ticking")
     console.log("gridItems in runCanvas: ",gridItems)
     console.log(Array.isArray(gridItems[0]))
     let gridWidth = gridItems[0].length
+    console.log("gridWidth:", gridWidth)
     let width = pixelsGridData[0].length
     let height = pixelsGridData.length
-    let state = Array(20).fill([])
+    let state = Array.from(Array(20), () => new Array());
+
     for(let i = 0; i < height; i++)
     {
+        ctx.beginPath();
         for(let j = 0; j < gridWidth; j++)
         {
-            state[i][j] = pixelsGridData[i][(j+pointer)%width]
+            ctx.rect((j+pointer)%width, i, 1, 1);
+            state[i][j] = (pixelsGridData[i][(j+pointer)%width] == 0 ? 0 : 1)
         }
+        ctx.stroke();
     }
-    pointer++
+    pointer+=1
     setState(state)
     //make the thing go - write algorithm to generate desired state to pass to the setState function
 }
 
 function turnPixelsOff(pixels){
-    for(pixel in pixels)
+    console.log("turnOff: ",pixels)
+    for(let i =0; i < pixels.length; i ++)
     {
-        turnPixelOff(pixel)
+        turnPixelOff(pixels[i])
     }
 }
 function turnPixelsOn(pixels){
-    for(pixel in pixels)
+    console.log("turnOn: ",pixels)
+    for(let i =0; i < pixels.length; i ++)
     {
-        turnPixelOn(pixel)
+        turnPixelOn(pixels[i])
     }
 }
 
@@ -179,8 +188,9 @@ function turnPixelOn(item){
     }
     togglePixel(item)
 }
+
 function turnPixelOff(item){
-    if(!item.getAttribute("src") == "redDot.png")
+    if(item.getAttribute("src") != "redDot.png")
     {
         return;
     }
