@@ -86,6 +86,18 @@ function getColorIndicesForCoord(x, y, width) { //not relevant
     return [red, red + 1, red + 2, red + 3];
   }
 
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
 function manageCanvas(){
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     canvas = document.getElementById("textCanvas");
@@ -259,6 +271,20 @@ function turnPixelOff(item){
 function togglePixel(item){
     let isOn = item.getAttribute("src") == on_img
     isOn ? item.setAttribute("src",off_img) : item.setAttribute("src",on_img);
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+  slides[slideIndex-1].style.display = "flex";
+  dots[slideIndex-1].className += " active";
 }
 
 
