@@ -1,18 +1,18 @@
-var phrases = "open 7am-11pm    closed! return later    truly these are the last days    there exists a nomadic science    there is water at the bottom of the ocean    the bell tolls for thee    days without cthulhu: -1    they’re stars that are facing the end    you do not recognize the bodies in the water   i want to dance with devils on dead stars   rebellion gets really easy when you make so many fucking rules    the enemy doesn’t arrive by boat he arrives by limousine   it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.    those who own for a living rule those who work for a living    more confident, capable, farseeing, and prudent    "
+var phrases = ["truly these are the last days", "there exists a nomadic science", "the bell tolls for thee", "days without cthulhu: -1", "they’re stars that are facing the end", "you do not recognize the bodies in the water", "i want to dance with devils on dead stars", "rebellion gets really easy when you make so many fucking rules", "the enemy doesn’t arrive by boat he arrives by limousine", "it would seem that a whole nomad science develops eccentrically, one that is very different from the royal or imperial sciences.", "those who own for a living rule those who work for a living", "there is water at the bottom of the ocean", "more confident, capable, farseeing, and prudent"]
 
-var text_font = "10pt Calibri"
-
-const on_img = "redDot_2.png"
+const txt_height = 14
+let text_font = txt_height + "px Verdana"
 const off_img = "dot_2.png"
+const on_img = "redDot_2.png"
 
 function measureTextHeight(text, font) {
   canvas = document.getElementById("textCanvas");
   const ctx = canvas.getContext("2d");
+  ctx.font = font;
   ctx.textBaseline = "bottom";
   let metric = ctx.measureText(text);
   ctx.textBaseline = "top";
   ctx.imageSmoothingEnabled = false;
-  ctx.font = font;
   ctx.fillStyle = "rgb(200,10,10)";
   console.log(metric)
   let height = metric.actualBoundingBoxAscent - metric.actualBoundingBoxDescent 
@@ -23,28 +23,28 @@ function measureTextHeight(text, font) {
 }
 
 // Use the function to measure the text height
-var num_grid_rows = measureTextHeight(phrases, text_font) + 4;
+var num_grid_rows = measureTextHeight(phrases[0], text_font) + 4;
 
 let grid_text_spacing = 2; // horizontal spacing between letters
 let startX = 0;
 
-async function flashbang(callingElement)
-{
-    callingElement.disabled = true;
-    await sleep(getRandomInt(15000))
-    let myModal = document.getElementById('myModal');
-    myModal.style.display = "block";
-    console.log(callingElement);   
-    var flash = new Audio('audio1.mp3');
-    audio.play();
-    audio.addEventListener('ended', (event) => {
-        callingElement.disabled = false;
-        myModal.style.display = "none";
-    });
-}
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+// async function flashbang(callingElement)
+// {
+//     callingElement.disabled = true;
+//     await sleep(getRandomInt(15000))
+//     let myModal = document.getElementById('myModal');
+//     myModal.style.display = "block";
+//     console.log(callingElement);   
+//     var flash = new Audio('audio1.mp3');
+//     audio.play();
+//     audio.addEventListener('ended', (event) => {
+//         callingElement.disabled = false;
+//         myModal.style.display = "none";
+//     });
+// }
+// function sleep(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+//   }
 
 function tick()
 {
@@ -74,16 +74,11 @@ function populateGrid(){
             item.setAttribute("src",off_img);
             gridItems[i].push(item);
             grid.appendChild(item);
-
-      //    debugging
             toggled = !toggled
-            if(toggled)
-            {
-                togglePixel(item);
-            }
+            if(toggled){togglePixel(item);}
         }
     }
-    console.log(grid)
+    // console.log(grid)
 }
 
 function getColorIndicesForCoord(x, y, width) { //not relevant
@@ -95,30 +90,35 @@ function manageCanvas(){
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     canvas = document.getElementById("textCanvas");
     const ctx = canvas.getContext("2d");
-    let canvDrawWidth = ctx.measureText(phrases).width;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "rgb(200,10,10)";
+    console.log("width: ", width)
+    ctx.font = text_font;
+    ctx.fillText("Test", 100, 50);
+    full_phrases = phrases.reduce((a,b) => a.concat(b))
+    let canvDrawWidth = num_grid_cols + ctx.measureText(full_phrases).width + (full_phrases.length-1)*grid_text_spacing + phrases.length*num_grid_cols;
     canvDrawWidth = Math.ceil(canvDrawWidth) // should this be ceil or floor?
     console.log("canvDrawWidth: ",canvDrawWidth)
 
-    ctx.textBaseline = "top";
     ctx.imageSmoothingEnabled = false;
-    ctx.font = text_font;
-    ctx.fillStyle = "rgb(200,10,10)";
-    console.log("width: ", width)
-    
-    // canv2 = document.getElementById("reconstructCanvas");
-    // const ctx2 = canv2.getContext("2d");
-    // ctx2.canvas.width = canvDrawWidth;
-    // ctx2.canvas.height = num_grid_rows;
-
     height = ctx.canvas.height;
     ctx.canvas.width = canvDrawWidth;
     ctx.canvas.height = num_grid_rows;
+    ctx.font = text_font;
 
     // draw something on the canvas
-      // draw the text
-      for 
-
-        ctx.fillText(phrases,0,10);
+    // draw the text
+      startX = num_grid_cols;
+      for (const phrase of phrases){
+        for (const letter of phrase){
+          ctx.fillText(letter,startX,txt_height);
+          ctx.font = text_font;
+          startX += ctx.measureText(letter).width + grid_text_spacing;
+        }
+        startX += num_grid_cols;
+      }
+    // canvDrawWidth = startX;
+    // ctx.canvas.width = canvDrawWidth;
 
       // draw a rectangle
         // ctx.fillStyle = 'black';
@@ -136,7 +136,6 @@ function manageCanvas(){
 
     // get the data from the canvas
     var data = Array.from(ctx.getImageData(0,0,canvDrawWidth,num_grid_rows).data);
-    // ctx2.putImageData(ctx.getImageData(0,0,canvDrawWidth,num_grid_rows), 0,0)
     // console.log("image data sum: ",sum_matrix(data))
     console.log("data length mod canv width: ", data.length % canvDrawWidth)
     var pixels = [];
@@ -159,14 +158,12 @@ function manageCanvas(){
     //pixel grid is a vector of rows indexible by [column, row]  //console.log("good pixels: ", nonEmpty)
     console.log("Pixels Grid: ", pixelGrid)
 
-    setInterval(runCanvasTick,68,pixelGrid)
+    setInterval(runCanvasTick,34,pixelGrid)
     // setInterval(runCanvasTick,17,pixelGrid) //roughly 60fps 
 }
-//should probably just make the whole canvas a class
 
 function setState(desiredState){ //take an array with row# of col#-length array, set the state of the grid to match
     //state is indexibile by [col,row], unfortunately
-    //man i just want pandas dataframes
 
     let numCols = desiredState.length
     let num_grid_rows = desiredState[0].length
@@ -202,7 +199,7 @@ function runCanvasTick(pixelsGridData) //use a callback function on a timer to c
 {
     canvas = document.getElementById("textCanvas");
     const ctx = canvas.getContext("2d");
-    console.log("ticking")
+    // console.log("ticking")
     // console.log("gridItems in runCanvas: ",gridItems)
     // console.log(Array.isArray(gridItems[0]))
     let gridWidth = gridItems[0].length
@@ -219,43 +216,13 @@ function runCanvasTick(pixelsGridData) //use a callback function on a timer to c
         {
             ctx.rect((j+pointer)%width, i, 1, 1);
             // console.log("i: ",i," j: ",j," pointer: ",pointer," width: ",width," height: ",height," gridWidth: ",gridWidth," pixelsGridData: ",pixelsGridData[i][(j+pointer)])
-            // state[i][j] = (pixelsGridData[i][(j+pointer)] == 0 ? 0 : 1)
             state[i][j] = (pixelsGridData[i][(j+pointer)%width] == 0 ? 0 : 1)
-            // let index = j + pointer;
-            // if (index >= width) {
-            //     index -= width;
-            //     pointer++;
-            // }
-            // state[i][j] = (pixelsGridData[i][index] == 0 ? 0 : 1);
-        }
+           }
         ctx.stroke();
       }
       pointer++;
 
-    // for(let i = 0; i < height; i++)
-    //   {
-    //       ctx.beginPath();
-    //       for(let j = 0; j < gridWidth; j++)
-    //         {
-    //           let index = j + pointer;
-    //           if (index >= width) {
-    //             index -= width;
-    //           }
-    //           ctx.rect(index, i, 1, 1);
-    //           state[i][j] = (pixelsGridData[i][index] == 0 ? 0 : 1);
-    //       }
-    //       ctx.stroke();
-    //       if (pointer >= width) {
-    //           pointer -= width;
-    //       }
-    //       pointer++;
-    // }
-
     setState(state)
-    // console.log("desired state: ",state)
-    // sum the pixels in state and log the value
-    console.log("sum: ",state.reduce((a,b) => a.concat(b)).reduce((a,b) => a+b))
-    //make the thing go - write algorithm to generate desired state to pass to the setState function
 }
 
 function turnPixelsOff(pixels){
@@ -293,6 +260,7 @@ function togglePixel(item){
     let isOn = item.getAttribute("src") == on_img
     isOn ? item.setAttribute("src",off_img) : item.setAttribute("src",on_img);
 }
+
 
 populateGrid()
 manageCanvas()
