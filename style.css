@@ -189,6 +189,10 @@ html { overflow-x: hidden; }
     display:flex;
     align-items: center;
     justify-content: center;
+    margin-top: 200px;
+    margin-left: 20px;
+    padding: 20px;
+    gap: 20px;
 }
 
 .fa:hover {

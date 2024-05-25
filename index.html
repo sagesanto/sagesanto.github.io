@@ -16,8 +16,7 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32"/>
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16"/>
     <meta name="theme-color" content="#fafafa">
-
-    <title>Home</title>
+    <title>Sage!</title>
 </head>
 <style>
      h2 {text-align: center;font-size: 30pt;}
@@ -37,21 +36,41 @@
         </div>
         
         <div class="slideshow-container">
-            <div class="slides" onclick="document.location='about.html'">
-                <p class="header2">About</p>
-                <p class = "header1">Sage Santomenna</p>
-                <p class="header2">Pomona College '26</p>
-            </div>
-            <div class="slides" onclick="document.location='prog_projects.html'">
-                <p class="header2">Project</p>
-                <p class = "header1">Assorted Programming Projects</p>
-                <p class="header2">View</p>
-            </div>
-            <div class="slides">
-                <p class="header2">Project</p>
-                <p class = "header1">Wheelchair Robot</p>
-                <p class="header2">View</p>
-            </div>
+            <a href = "about.html"> 
+                <div class="slides">
+                    <p class="header2">About</p>
+                    <p class = "header1">Sage Santomenna</p>
+                    <p class="header2">Pomona College '26</p>
+                </div>
+            </a>
+            <a href = "projects/maestro.html">
+                <div class="slides">
+                    <p class="header2">Project</p>
+                    <p class = "header1">MAESTRO</p>
+                    <p class="header2">Graphical observation scheduling and management software</p>
+                </div>
+            </a>
+            <a href = "https://sagesanto.github.io/gr_bh_orbits/">
+                <div class="slides">
+                    <p class="header2">Project</p>
+                    <p class = "header1">Relativistic Orbits</p>
+                    <p class="header2">Interactive web-based graphical simulation of relativistic partical orbits around a black hole</p>
+                </div>
+            </a>
+            <a href = "projects/auto_nav.html">
+                <div class="slides">
+                    <p class="header2">Project</p>
+                    <p class = "header1">Autonomous Navigation</p>
+                    <p class="header2">From-scratch autonomous navigation on robot built from converted electric wheelchair</p>
+                </div>
+            </a>
+            <a href = "projects/prog_projects.html">
+                <div class="slides">
+                    <p class="header2">Project</p>
+                    <p class = "header1">Assorted Programming Projects</p>
+                    <p class="header2">Fun little demos</p>
+                </div>
+            </a>
 
             <!-- Next/prev buttons -->
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -63,12 +82,20 @@
             <span class="dot" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+        </div>
+        <div class = "flex">
+            <div class="socials-container">
+                <a href="https://www.linkedin.com/in/sage-santomenna/" target="_blank">
+                    <img src="linkedin.png" alt="LinkedIn" class="socials">
+                </a>
+                <a href="https://www.github.com/sagesanto" target="_blank">
+                    <img src="github_logo.png" alt="GitHub" class="socials">
+                </a>
+            </div>
         </div>
 
-        <div class="socials-container">
-            <p class = "header1">Find Me</p>
-        </div>
-    </div>
 </div>
 </body>
 </html>
