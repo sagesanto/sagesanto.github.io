@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16"/>
     <meta name="theme-color" content="#fafafa">
 
-    <title>Arcturus.love</title>
+    <title>Home</title>
 </head>
 <style>
      h2 {text-align: center;font-size: 30pt;}
@@ -26,8 +26,8 @@
      }
 </style>
 
-<body>
-<!-- <canvas id="reconstructCanvas"></canvas> -->
+<body style="background-color:black;">
+    <!-- <canvas id="reconstructCanvas"></canvas> -->
 <canvas id="textCanvas" style="display: none;"></canvas>
 
 <div class="flex">
@@ -35,19 +35,65 @@
         <div>
             <div class="sign" id="gridContainer"></div>
         </div>
-        <div>
-            <p>Sage's webpage, under <strong>heavy</strong> development.</p>
-            <audio id="audio" src="audio1.mp3" preload="auto"></audio>
-            <div id="myModal" class="modal">
-                <div class="modal-header">
-                    <h2>HEADPHONE WARNING</h2></div>
+        
+        <div class="slideshow-container">
+
+            <div class="slides" onclick="document.location='about.html'">
+                <p class="header2">About</p>
+                <p class = "header1">Sage Santomenna</p>
+                <p class="header2">Pomona College '26</p>
             </div>
+
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">Convex Hull</p>
+                <p class="header2">View</p>
+            </div>
+
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">FABRIK</p>
+                <p class="header2">View</p>
+            </div>
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">Wheelchair Robot</p>
+                <p class="header2">View</p>
+            </div>
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">Point In Polygon</p>
+                <p class="header2">View</p>
+            </div>
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">Hamming Codes</p>
+                <p class="header2">View</p>
+            </div>
+            <div class="slides">
+                <p class="header2">Project</p>
+                <p class = "header1">History of MSSM</p>
+                <p class="header2">View</p>
+            </div>
+
+            <!-- Next/prev buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
-        <div>
-            <section>
-                <button id="redBut" onclick="flashbang(this)">Don't Press This</button>
-                <button id="tick" onclick="tick()">Tick</button>
-            </section>
+
+        <!-- Dots/bullets/indicators -->
+        <div class="dot-container">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+        </div>
+
+        <div class="socials-container">
+            <p class = "header1">Find Me</p>
         </div>
     </div>
 </div>
