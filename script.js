@@ -28,24 +28,6 @@ var num_grid_rows = measureTextHeight(phrases[0], text_font) + 4;
 let grid_text_spacing = 2; // horizontal spacing between letters
 let startX = 0;
 
-// async function flashbang(callingElement)
-// {
-//     callingElement.disabled = true;
-//     await sleep(getRandomInt(15000))
-//     let myModal = document.getElementById('myModal');
-//     myModal.style.display = "block";
-//     console.log(callingElement);   
-//     var flash = new Audio('audio1.mp3');
-//     audio.play();
-//     audio.addEventListener('ended', (event) => {
-//         callingElement.disabled = false;
-//         myModal.style.display = "none";
-//     });
-// }
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-//   }
-
 function tick()
 {
     runCanvasTick(pixelGrid);
@@ -70,7 +52,6 @@ function populateGrid(){
         for (let j = 0; j <num_grid_cols; j++) {
             var item = document.createElement("img");
             item.setAttribute("class", "pixel");
-            // item.addEventListener("click", function() { togglePixel(item); });
             item.setAttribute("src",off_img);
             gridItems[i].push(item);
             grid.appendChild(item);
@@ -78,13 +59,8 @@ function populateGrid(){
             if(toggled){togglePixel(item);}
         }
     }
-    // console.log(grid)
 }
 
-function getColorIndicesForCoord(x, y, width) { //not relevant
-    var red = y * (width * 4) + x * 4;
-    return [red, red + 1, red + 2, red + 3];
-  }
 
 function manageCanvas(){
     var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -97,7 +73,7 @@ function manageCanvas(){
     ctx.fillText("Test", 100, 50);
     full_phrases = phrases.reduce((a,b) => a.concat(b))
     let canvDrawWidth = num_grid_cols + ctx.measureText(full_phrases).width + (full_phrases.length-1)*grid_text_spacing + phrases.length*num_grid_cols;
-    canvDrawWidth = Math.ceil(canvDrawWidth) // should this be ceil or floor?
+    canvDrawWidth = Math.ceil(canvDrawWidth) 
     console.log("canvDrawWidth: ",canvDrawWidth)
 
     ctx.imageSmoothingEnabled = false;
@@ -117,26 +93,9 @@ function manageCanvas(){
         }
         startX += num_grid_cols;
       }
-    // canvDrawWidth = startX;
-    // ctx.canvas.width = canvDrawWidth;
-
-      // draw a rectangle
-        // ctx.fillStyle = 'black';
-        // ctx.rect(0, 0, canvDrawWidth, num_grid_rows);
-        // ctx.fill();
-
-      // draw striped
-        // let stripeWidth = 10; // Width of each stripe
-        // let rectHeight = num_grid_rows; // Height of the rectangle
-        // let rectWidth = canvDrawWidth; // Width of the rectangle
-        // ctx.fillStyle = 'black';
-        // for(let i = 0; i < rectWidth; i += stripeWidth * 2) {
-        //     ctx.fillRect(i, 0, stripeWidth, rectHeight);
-        // }
 
     // get the data from the canvas
     var data = Array.from(ctx.getImageData(0,0,canvDrawWidth,num_grid_rows).data);
-    // console.log("image data sum: ",sum_matrix(data))
     console.log("data length mod canv width: ", data.length % canvDrawWidth)
     var pixels = [];
     count = 0;
@@ -155,11 +114,10 @@ function manageCanvas(){
     {
         pixelGrid.push(pixels.slice(i*canvDrawWidth,(i+1)*canvDrawWidth))
     }
-    //pixel grid is a vector of rows indexible by [column, row]  //console.log("good pixels: ", nonEmpty)
+    //pixel grid is a vector of rows indexible by [column, row]
     console.log("Pixels Grid: ", pixelGrid)
 
     setInterval(runCanvasTick,34,pixelGrid)
-    // setInterval(runCanvasTick,17,pixelGrid) //roughly 60fps 
 }
 
 function setState(desiredState){ //take an array with row# of col#-length array, set the state of the grid to match
@@ -199,11 +157,7 @@ function runCanvasTick(pixelsGridData) //use a callback function on a timer to c
 {
     canvas = document.getElementById("textCanvas");
     const ctx = canvas.getContext("2d");
-    // console.log("ticking")
-    // console.log("gridItems in runCanvas: ",gridItems)
-    // console.log(Array.isArray(gridItems[0]))
     let gridWidth = gridItems[0].length
-    // console.log("gridWidth:", gridWidth)
     let width = pixelsGridData[0].length
     let height = pixelsGridData.length
     let state = Array.from(Array(num_grid_rows), () => new Array());
@@ -226,14 +180,12 @@ function runCanvasTick(pixelsGridData) //use a callback function on a timer to c
 }
 
 function turnPixelsOff(pixels){
-    // console.log("turnOff: ",pixels)
     for(let i =0; i < pixels.length; i ++)
     {
         turnPixelOff(pixels[i])
     }
 }
 function turnPixelsOn(pixels){
-    // console.log("turnOn: ",pixels)
     for(let i =0; i < pixels.length; i ++)
     {
         turnPixelOn(pixels[i])
@@ -261,6 +213,36 @@ function togglePixel(item){
     isOn ? item.setAttribute("src",off_img) : item.setAttribute("src",on_img);
 }
 
+// slides ------------------------------------------------------------------------------------------------------
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+  slides[slideIndex-1].style.display = "flex";
+  dots[slideIndex-1].className += " active";
+}
+
+// main ------------------------------------------------------------------------------------------------------
 
 populateGrid()
 manageCanvas()
